@@ -1,7 +1,11 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import Stripe from 'stripe';
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+function env(name: string) {
+  return process.env[name]?.trim();
+}
+
+const stripeSecretKey = env('STRIPE_SECRET_KEY');
 
 const stripe = stripeSecretKey
   ? new Stripe(stripeSecretKey, {
@@ -10,9 +14,9 @@ const stripe = stripeSecretKey
   : null;
 
 const priceMap = {
-  foundation_reset: process.env.STRIPE_PRICE_FOUNDATION || 'price_1TJBc52OVEwOE8aYaE3nArUE',
-  core_sculpt: process.env.STRIPE_PRICE_CORE || 'price_1TJBch2OVEwOE8aYXBoqzEIT',
-  elite_flow: process.env.STRIPE_PRICE_ELITE || 'price_1TJBdP2OVEwOE8aYVc8W9IWb',
+  foundation_reset: env('STRIPE_PRICE_FOUNDATION') || 'price_1TJBc52OVEwOE8aYaE3nArUE',
+  core_sculpt: env('STRIPE_PRICE_CORE') || 'price_1TJBch2OVEwOE8aYXBoqzEIT',
+  elite_flow: env('STRIPE_PRICE_ELITE') || 'price_1TJBdP2OVEwOE8aYVc8W9IWb',
 } as const;
 
 type ProgramType = keyof typeof priceMap;
@@ -34,7 +38,7 @@ async function readJsonBody<T>(req: IncomingMessage): Promise<T> {
 }
 
 function getBaseUrl(req: IncomingMessage) {
-  return process.env.APP_URL || process.env.PUBLIC_APP_URL || `https://${req.headers.host}`;
+  return env('APP_URL') || env('PUBLIC_APP_URL') || `https://${req.headers.host}`;
 }
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
@@ -62,7 +66,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       program,
       price: priceMap[program],
       host: req.headers.host,
-      hasSecretKey: Boolean(process.env.STRIPE_SECRET_KEY),
+      hasSecretKey: Boolean(stripeSecretKey),
     });
 
     const session = await stripe.checkout.sessions.create({

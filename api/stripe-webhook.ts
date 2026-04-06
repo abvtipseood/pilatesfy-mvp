@@ -2,10 +2,14 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import Stripe from 'stripe';
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-const resendApiKey = process.env.RESEND_API_KEY;
-const fromEmail = process.env.FROM_EMAIL;
+function env(name: string) {
+  return process.env[name]?.trim();
+}
+
+const stripeSecretKey = env('STRIPE_SECRET_KEY');
+const stripeWebhookSecret = env('STRIPE_WEBHOOK_SECRET');
+const resendApiKey = env('RESEND_API_KEY');
+const fromEmail = env('FROM_EMAIL');
 
 const stripe = stripeSecretKey
   ? new Stripe(stripeSecretKey, {
@@ -27,24 +31,24 @@ const pdfConfig: Record<
 > = {
   foundation: {
     label: 'Foundation PDF',
-    path: process.env.FOUNDATION_PDF_PATH,
-    url: process.env.FOUNDATION_PDF_URL,
-    fallbackPath: process.env.FOUNDATION_RESET_PDF_PATH,
-    fallbackUrl: process.env.FOUNDATION_RESET_PDF_URL,
+    path: env('FOUNDATION_PDF_PATH'),
+    url: env('FOUNDATION_PDF_URL'),
+    fallbackPath: env('FOUNDATION_RESET_PDF_PATH'),
+    fallbackUrl: env('FOUNDATION_RESET_PDF_URL'),
   },
   core: {
     label: 'Core PDF',
-    path: process.env.CORE_PDF_PATH,
-    url: process.env.CORE_PDF_URL,
-    fallbackPath: process.env.CORE_SCULPT_PDF_PATH,
-    fallbackUrl: process.env.CORE_SCULPT_PDF_URL,
+    path: env('CORE_PDF_PATH'),
+    url: env('CORE_PDF_URL'),
+    fallbackPath: env('CORE_SCULPT_PDF_PATH'),
+    fallbackUrl: env('CORE_SCULPT_PDF_URL'),
   },
   elite: {
     label: 'Elite PDF',
-    path: process.env.ELITE_PDF_PATH,
-    url: process.env.ELITE_PDF_URL,
-    fallbackPath: process.env.ELITE_FLOW_PDF_PATH,
-    fallbackUrl: process.env.ELITE_FLOW_PDF_URL,
+    path: env('ELITE_PDF_PATH'),
+    url: env('ELITE_PDF_URL'),
+    fallbackPath: env('ELITE_FLOW_PDF_PATH'),
+    fallbackUrl: env('ELITE_FLOW_PDF_URL'),
   },
 };
 
