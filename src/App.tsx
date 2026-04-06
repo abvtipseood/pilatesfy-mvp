@@ -10,6 +10,7 @@ type AppState = 'landing' | 'quiz' | 'loading' | 'result' | 'checkout';
 export default function App() {
   const [appState, setAppState] = useState<AppState>('landing');
   const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   const handleStartQuiz = () => {
     setAppState('quiz');
@@ -25,10 +26,33 @@ export default function App() {
     setAppState('result');
   };
 
-  const handleCheckout = () => {
-    // In MVP, this might just alert or go to a placeholder checkout page
-    alert("Пренасочване към checkout/плащане...");
+  const handleCheckout = async () => {
+    if (!quizResult) return;
+
+    setCheckoutError(null);
     setAppState('checkout');
+
+    try {
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          program: quizResult.program,
+        }),
+      });
+
+      const data = (await response.json()) as { url?: string; error?: string };
+
+      if (!response.ok || !data.url) {
+        throw new Error(data.error || 'Не успяхме да стартираме плащането.');
+      }
+
+      window.location.href = data.url;
+    } catch (error) {
+      setCheckoutError(error instanceof Error ? error.message : 'Възникна проблем при пренасочването към плащане.');
+    }
   };
 
   return (
@@ -42,13 +66,17 @@ export default function App() {
       {appState === 'checkout' && (
         <div className="min-h-screen flex items-center justify-center px-6 text-center">
           <div>
-            <h2 className="text-2xl font-display font-medium mb-4">Checkout Placeholder</h2>
-            <p className="text-text-secondary mb-8">Тук ще бъде интегрирана системата за плащане (Stripe, etc.)</p>
+            <h2 className="text-2xl font-display font-medium mb-4">
+              {checkoutError ? 'Проблем с плащането' : 'Пренасочваме те към сигурно плащане'}
+            </h2>
+            <p className="text-text-secondary mb-8">
+              {checkoutError || 'Моля, изчакай няколко секунди...'}
+            </p>
             <button 
-              onClick={() => setAppState('landing')}
+              onClick={() => setAppState(quizResult ? 'result' : 'landing')}
               className="text-pink-secondary underline"
             >
-              Обратно в началото
+              {checkoutError ? 'Обратно към резултата' : 'Отказ'}
             </button>
           </div>
         </div>
