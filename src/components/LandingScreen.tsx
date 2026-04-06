@@ -77,30 +77,30 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
           </span>
         </div>
 
-        <div className="hidden lg:grid lg:grid-cols-[0.92fr_1.08fr] lg:items-start lg:gap-10 lg:w-full">
+        <div className="hidden lg:grid lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:gap-12 xl:gap-16 lg:w-full">
           <div className="text-left pt-0">
-            <div className="mb-2">
+            <div className="mb-4">
               <img
                 src={pilatesfyLogo}
                 alt="Pilatesfy"
                 decoding="async"
-                className="h-auto w-[220px] object-contain"
+                className="h-auto w-[250px] object-contain"
               />
             </div>
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-pink-primary/35 bg-white/68 px-4 py-2 shadow-[0_10px_28px_rgba(235,199,207,0.18)] backdrop-blur-sm">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-pink-primary/35 bg-white/70 px-4 py-2 shadow-[0_10px_28px_rgba(235,199,207,0.16)] backdrop-blur-sm">
               <Sparkles className="w-[14px] h-[14px] text-pink-secondary" />
               <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-text-secondary">
                 Персонален Pilates Match
               </span>
             </div>
-            <h1 className="text-[4.5rem] font-display font-medium text-text-main leading-[0.92] tracking-[-0.04em] max-w-[560px]">
+            <h1 className="max-w-[590px] text-[4.55rem] font-display font-medium text-text-main leading-[0.9] tracking-[-0.045em]">
               Открий пилатес програма,
               <span className="block">персонализирана за теб.</span>
             </h1>
-            <p className="mt-6 max-w-[520px] text-[19px] leading-[1.6] text-text-secondary/92">
+            <p className="mt-7 max-w-[510px] text-[19px] leading-[1.68] text-text-secondary/90">
               Отговори на няколко кратки въпроса и виж коя програма е най-подходяща според нивото, целите и времето ти.
             </p>
-            <div className="mt-6 flex items-center gap-2 text-[13px] text-text-secondary/82">
+            <div className="mt-7 flex items-center gap-2.5 text-[13px] text-text-secondary/82">
               <div className="flex items-center gap-0.5 text-pink-secondary">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <Star key={`desktop-star-${index}`} className="h-4 w-4 fill-current" />
@@ -109,94 +109,105 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
               <span className="font-medium">600+ жени започнаха промяната</span>
             </div>
 
-            <div className="mt-8 flex items-center gap-4">
-              <Button 
+            <div className="mt-9 flex items-center gap-5">
+              <Button
                 onClick={handleStart}
-                className="h-16 min-w-[260px] border border-white/75 bg-[linear-gradient(90deg,#ddb7bf_0%,#e7c2ca_45%,#e8c9b4_100%)] px-9 text-lg tracking-[0.01em] shadow-[0_16px_34px_rgba(235,199,207,0.52),0_2px_0_rgba(255,255,255,0.34)_inset] hover:shadow-[0_16px_34px_rgba(235,199,207,0.64),0_2px_0_rgba(255,255,255,0.34)_inset]"
+                className="h-[68px] min-w-[276px] rounded-[1.55rem] border border-white/80 bg-[linear-gradient(90deg,#ddb7bf_0%,#e7c2ca_45%,#e8c9b4_100%)] px-10 text-[20px] tracking-[0.01em] shadow-[0_18px_38px_rgba(235,199,207,0.5),0_2px_0_rgba(255,255,255,0.34)_inset] hover:shadow-[0_18px_38px_rgba(235,199,207,0.62),0_2px_0_rgba(255,255,255,0.34)_inset]"
               >
                 Започни теста
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
-              <motion.div
-                key={`desktop-${liveUsers}`}
-                initial={{ opacity: 0.65, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
-                className="text-[13px] font-medium text-text-secondary/78"
-              >
-                В момента попълват <span className="text-text-main">{liveUsers} души</span>
-              </motion.div>
+              <div className="rounded-[1.4rem] border border-white/70 bg-white/56 px-4 py-3 shadow-[0_12px_28px_rgba(235,199,207,0.10)] backdrop-blur-[8px]">
+                <motion.div
+                  key={`desktop-${liveUsers}`}
+                  initial={{ opacity: 0.65, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  className="text-[13px] font-medium leading-tight text-text-secondary/80"
+                >
+                  В момента попълват <span className="text-text-main">{liveUsers} души</span>
+                </motion.div>
+              </div>
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-3 text-[13px] text-text-secondary/78 font-medium">
-              <span className="flex items-center gap-2 rounded-full border border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.5),rgba(255,255,255,0.32))] px-3.5 py-2 shadow-[0_8px_18px_rgba(235,199,207,0.10)] backdrop-blur-[6px]">
+            <div className="mt-7 flex flex-wrap gap-3 text-[13px] text-text-secondary/78 font-medium">
+              <span className="flex items-center gap-2 rounded-full border border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.54),rgba(255,255,255,0.36))] px-4 py-2.5 shadow-[0_8px_18px_rgba(235,199,207,0.10)] backdrop-blur-[6px]">
                 <Sparkles className="w-3.5 h-3.5 text-pink-secondary" />
                 Безплатен тест
               </span>
-              <span className="flex items-center gap-2 rounded-full border border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.5),rgba(255,255,255,0.32))] px-3.5 py-2 shadow-[0_8px_18px_rgba(235,199,207,0.10)] backdrop-blur-[6px]">
+              <span className="flex items-center gap-2 rounded-full border border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.54),rgba(255,255,255,0.36))] px-4 py-2.5 shadow-[0_8px_18px_rgba(235,199,207,0.10)] backdrop-blur-[6px]">
                 <Clock className="w-3.5 h-3.5 text-pink-secondary" />
                 Под 1 минута
               </span>
-              <span className="flex items-center gap-2 rounded-full border border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.5),rgba(255,255,255,0.32))] px-3.5 py-2 shadow-[0_8px_18px_rgba(235,199,207,0.10)] backdrop-blur-[6px]">
+              <span className="flex items-center gap-2 rounded-full border border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.54),rgba(255,255,255,0.36))] px-4 py-2.5 shadow-[0_8px_18px_rgba(235,199,207,0.10)] backdrop-blur-[6px]">
                 <UserCircle2 className="w-3.5 h-3.5 text-pink-secondary" />
                 Без регистрация
               </span>
             </div>
           </div>
 
-          <div className="w-full rounded-[2.5rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(255,255,255,0.62))] shadow-[0_30px_64px_rgba(235,199,207,0.20)] backdrop-blur-[12px] overflow-hidden">
-            <div className="px-8 pt-8">
-              <div className="inline-flex items-center rounded-full bg-pink-primary/14 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-pink-secondary">
-                Персонален match
-              </div>
+          <div className="isolate w-full rounded-[2.75rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.74))] shadow-[0_34px_70px_rgba(235,199,207,0.20)] overflow-hidden">
+            <div className="px-10 pt-9">
+              <div className="text-center">
+                <div className="inline-flex items-center rounded-full bg-pink-primary/14 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-pink-secondary">
+                  Персонален match
+                </div>
 
-              <div className="mt-5 grid grid-cols-[1.05fr_0.95fr] items-center gap-4">
-                <div className="text-left">
-                  <p className="max-w-[360px] text-[36px] font-display font-semibold leading-[1] tracking-[-0.03em] text-text-main">
+                <div className="mt-6">
+                  <p className="mx-auto max-w-[440px] text-[37px] font-display font-semibold leading-[1.02] tracking-[-0.032em] text-text-main">
                     Твоят план започва
                     <span className="block">с ясна посока</span>
                   </p>
-                  <p className="mt-4 max-w-[350px] text-[16px] leading-[1.65] text-text-secondary">
+                  <p className="mx-auto mt-5 max-w-[430px] text-[15px] leading-[1.8] text-text-secondary/92">
                     Персонализирана препоръка според твоето ниво, ритъм и цели, за да започнеш уверено още днес.
                   </p>
                 </div>
+              </div>
+            </div>
 
-                <div className="justify-self-end rounded-full border border-pink-primary/20 bg-white/58 px-4 py-2.5 shadow-[0_10px_24px_rgba(235,199,207,0.10)] backdrop-blur-[6px]">
-                  <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/55">Pilatesfy fit</p>
-                  <p className="mt-1 text-[14px] font-semibold leading-none text-text-main whitespace-nowrap">Персонална насока</p>
+            <div className="relative mt-4 min-h-[332px] px-10">
+              <motion.div
+                animate={{ y: [0, -6, 0], scale: [1, 1.015, 1] }}
+                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute left-20 right-20 bottom-12 h-24 rounded-full bg-pink-primary/28 blur-3xl"
+              />
+              <motion.img
+                src={landingModel}
+                alt="Pilates model"
+                decoding="async"
+                fetchPriority="high"
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+                className="relative z-10 mx-auto w-full max-w-[640px] object-contain object-center drop-shadow-[0_28px_38px_rgba(46,42,43,0.10)]"
+              />
+            </div>
+
+            <div className="px-10 pb-5 pt-1">
+              <div className="grid grid-cols-[0.9fr_1.05fr_1.35fr] items-center overflow-hidden rounded-[1.45rem] border border-white/75 bg-[linear-gradient(180deg,rgba(255,255,255,0.68),rgba(255,255,255,0.52))] shadow-[0_12px_28px_rgba(235,199,207,0.10)] backdrop-blur-[6px]">
+                <div className="px-4 py-3 text-center">
+                  <p className="text-[12px] font-medium leading-[1.35] text-text-secondary/76">Pilatesfy fit</p>
+                </div>
+                <div className="border-l border-r border-white/70 px-4 py-3 text-center">
+                  <p className="text-[12px] font-medium leading-[1.35] text-text-secondary/76">Персонална насока</p>
+                </div>
+                <div className="px-4 py-3 text-center">
+                  <p className="text-[12px] font-medium leading-[1.35] text-text-secondary/76">Съобразена с твоето ниво и ритъм.</p>
                 </div>
               </div>
             </div>
 
-            <div className="relative mt-2 min-h-[300px] px-8">
-              <motion.div
-                animate={{ y: [0, -6, 0], scale: [1, 1.015, 1] }}
-                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute left-16 right-16 bottom-10 h-24 rounded-full bg-pink-primary/28 blur-3xl"
-              />
-            <motion.img
-              src={landingModel}
-              alt="Pilates model"
-              decoding="async"
-              fetchPriority="high"
-              animate={{ y: [0, -4, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative z-10 mx-auto w-full max-w-[620px] object-contain object-center drop-shadow-[0_28px_38px_rgba(46,42,43,0.10)]"
-            />
-            </div>
-
-            <div className="grid grid-cols-3 gap-3 px-8 pb-8 pt-2">
-              <div className="rounded-[1.35rem] border border-white/75 bg-white/68 px-4 py-4 text-center shadow-[0_10px_24px_rgba(235,199,207,0.12)]">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">Ниво</p>
-                <p className="mt-1.5 text-[16px] font-semibold text-text-main">За теб</p>
+            <div className="grid grid-cols-3 gap-4 px-10 pb-9 pt-1">
+              <div className="rounded-[1.55rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(255,255,255,0.56))] px-4 py-4 text-center shadow-[0_12px_24px_rgba(235,199,207,0.12)] backdrop-blur-[6px]">
+                <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary/58">Ниво</p>
+                <p className="mt-2 text-[16px] font-medium leading-[1.2] text-text-main">За теб</p>
               </div>
-              <div className="rounded-[1.35rem] border border-white/75 bg-white/68 px-4 py-4 text-center shadow-[0_10px_24px_rgba(235,199,207,0.12)]">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">Време</p>
-                <p className="mt-1.5 text-[16px] font-semibold text-text-main">1 минута</p>
+              <div className="rounded-[1.55rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(255,255,255,0.56))] px-4 py-4 text-center shadow-[0_12px_24px_rgba(235,199,207,0.12)] backdrop-blur-[6px]">
+                <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary/58">Време</p>
+                <p className="mt-2 text-[16px] font-medium leading-[1.2] text-text-main">1 минута</p>
               </div>
-              <div className="rounded-[1.35rem] border border-white/75 bg-white/68 px-4 py-4 text-center shadow-[0_10px_24px_rgba(235,199,207,0.12)]">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">Резултат</p>
-                <p className="mt-1.5 text-[16px] font-semibold text-text-main">Персонален план</p>
+              <div className="rounded-[1.55rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(255,255,255,0.56))] px-4 py-4 text-center shadow-[0_12px_24px_rgba(235,199,207,0.12)] backdrop-blur-[6px]">
+                <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary/58">Резултат</p>
+                <p className="mt-2 text-[16px] font-medium leading-[1.2] text-text-main">Персонален план</p>
               </div>
             </div>
           </div>

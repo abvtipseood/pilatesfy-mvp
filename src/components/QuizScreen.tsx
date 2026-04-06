@@ -77,12 +77,12 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete }) => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col max-w-md lg:max-w-6xl mx-auto px-5 py-6 lg:px-8 lg:py-10">
+    <div className="min-h-screen relative overflow-hidden flex flex-col max-w-md lg:max-w-[1180px] mx-auto px-5 py-5 lg:px-8 lg:py-10">
       <div className="absolute left-[-14%] top-[4%] h-40 w-40 rounded-full bg-pink-primary/20 blur-[80px] pointer-events-none" />
       <div className="absolute right-[-12%] top-[18%] h-32 w-32 rounded-full bg-sand-soft/70 blur-[70px] pointer-events-none" />
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-5 lg:mb-8 relative z-10">
+      <div className="flex items-center justify-between mb-4 lg:mb-8 relative z-10">
         <button 
           onClick={handleBack}
           className={`flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-white/65 text-text-secondary transition-colors ${currentIndex === 0 ? 'invisible' : ''}`}
@@ -101,17 +101,17 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete }) => {
         <div className="w-10" />
       </div>
 
-      <div className="relative z-10 mb-6 lg:mb-8 rounded-[1.8rem] border border-white/75 bg-white/60 px-4 py-4 lg:px-6 lg:py-5 shadow-[0_14px_32px_rgba(235,199,207,0.14)] backdrop-blur-[8px]">
-        <div className="flex items-center justify-between mb-3">
+      <div className="relative z-10 mb-4 lg:mb-8 rounded-[1.65rem] border border-white/75 bg-[linear-gradient(180deg,rgba(255,255,255,0.68),rgba(255,255,255,0.56))] px-4 py-4 lg:rounded-[2rem] lg:px-7 lg:py-5 shadow-[0_14px_32px_rgba(235,199,207,0.14)] backdrop-blur-[8px]">
+        <div className="flex items-center justify-between mb-3 lg:mb-5">
           <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-text-secondary/70">
             Прогрес
           </span>
-          <span className="text-[12px] font-medium text-text-secondary">
+          <span className="rounded-full bg-white/72 px-2.5 py-1 text-[11px] font-medium text-text-secondary shadow-[0_6px_16px_rgba(235,199,207,0.08)] lg:bg-transparent lg:px-0 lg:py-0 lg:text-[13px] lg:shadow-none">
             Остават {remainingQuestions}
           </span>
         </div>
 
-        <div className="flex items-center justify-between gap-1.5 lg:gap-2.5">
+        <div className="flex items-center justify-between gap-1.5 lg:gap-3">
           {progressDots.map((dotIndex) => {
             const isCurrent = dotIndex === currentIndex;
             const isCompleted = dotIndex < currentIndex;
@@ -121,21 +121,21 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete }) => {
                 key={dotIndex}
                 className={`flex items-center justify-center rounded-full transition-all duration-300 ${
                   isCurrent
-                    ? 'h-10 w-10 lg:h-12 lg:w-12 border-2 border-pink-primary bg-white text-text-main shadow-[0_8px_18px_rgba(235,199,207,0.22)]'
+                    ? 'h-10 min-w-[2.75rem] px-2 lg:h-12 lg:w-12 lg:min-w-0 lg:px-0 border-2 border-pink-primary bg-white text-text-main shadow-[0_10px_22px_rgba(235,199,207,0.24)]'
                     : isCompleted
-                      ? 'h-2.5 w-2.5 lg:h-3 lg:w-3 bg-pink-secondary'
-                      : 'h-2.5 w-2.5 lg:h-3 lg:w-3 bg-pink-primary/35'
+                      ? 'h-2.5 w-2.5 lg:h-3 lg:w-3 bg-pink-secondary shadow-[0_0_0_6px_rgba(235,199,207,0.08)]'
+                      : 'h-2.5 w-2.5 lg:h-3 lg:w-3 bg-pink-primary/30'
                 }`}
               >
                 {isCurrent ? (
-                  <span className="text-[13px] font-semibold">{dotIndex + 1}</span>
+                  <span className="text-[12px] font-semibold tracking-[0.01em] lg:text-[13px]">{dotIndex + 1}</span>
                 ) : null}
               </div>
             );
           })}
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 lg:mt-4">
           <ProgressBar progress={progress} />
         </div>
       </div>
@@ -155,7 +155,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete }) => {
       </AnimatePresence>
 
       {/* Question Area */}
-      <div className="flex-1 flex flex-col justify-center mb-8 relative z-10">
+      <div className="flex-1 flex flex-col justify-center mb-6 lg:mb-8 relative z-10">
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={currentIndex}
@@ -165,24 +165,26 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete }) => {
             animate="center"
             exit="exit"
             transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full min-h-[470px] lg:min-h-[540px] flex flex-col"
+            className="w-full min-h-[450px] lg:min-h-[520px] flex flex-col"
           >
-            <div className="rounded-[2rem] border border-white/75 bg-white/72 p-5 lg:p-8 shadow-[0_20px_40px_rgba(235,199,207,0.16)] backdrop-blur-[10px] mb-4 lg:mb-5">
-              <div className="mb-4 flex items-center justify-between">
+            <div className="rounded-[1.75rem] border border-white/75 bg-white/72 px-4 py-4.5 lg:rounded-[2.25rem] lg:px-10 lg:py-8 shadow-[0_20px_40px_rgba(235,199,207,0.16)] backdrop-blur-[10px] mb-4 lg:mb-6">
+              <div className="mb-3.5 flex items-center justify-between lg:mb-5">
                 <span className="rounded-full bg-pink-primary/14 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-pink-secondary">
                   Въпрос {currentIndex + 1}
                 </span>
-                <span className="text-[11px] font-medium text-text-secondary/75">
+                <span className="text-[11px] font-medium text-text-secondary/75 lg:text-[12px]">
                   {progress}%
                 </span>
               </div>
 
-              <h2 className="text-[28px] lg:text-[42px] font-display font-medium text-text-main leading-[1.12] tracking-[-0.02em] text-center text-balance max-w-4xl mx-auto">
+              <div className="hidden lg:block mb-4 h-px w-full bg-gradient-to-r from-transparent via-pink-primary/18 to-transparent" />
+
+              <h2 className="text-[30px] lg:text-[44px] font-display font-medium text-text-main leading-[1.08] tracking-[-0.03em] text-center text-balance max-w-[900px] mx-auto">
                 {currentQuestion.text}
               </h2>
             </div>
 
-            <div className="space-y-3 lg:space-y-4 flex-1 max-w-3xl mx-auto w-full">
+            <div className="space-y-2.5 lg:space-y-3.5 flex-1 max-w-[860px] mx-auto w-full">
               {currentQuestion.answers.map((answer, idx) => (
                 <OptionCard
                   key={idx}
