@@ -44,6 +44,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
 
   if (!stripe) {
+    console.error('Stripe checkout init failed: missing STRIPE_SECRET_KEY');
     return json(res, 500, { error: 'Missing STRIPE_SECRET_KEY' });
   }
 
@@ -52,10 +53,18 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     const program = body.program;
 
     if (!program || !(program in priceMap)) {
+      console.error('Stripe checkout error: invalid program payload', body);
       return json(res, 400, { error: 'Invalid program' });
     }
 
     const baseUrl = getBaseUrl(req);
+    console.log('Creating Stripe checkout session', {
+      program,
+      price: priceMap[program],
+      host: req.headers.host,
+      hasSecretKey: Boolean(process.env.STRIPE_SECRET_KEY),
+    });
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card'],
@@ -75,6 +84,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
     return json(res, 200, { url: session.url });
   } catch (error) {
+    console.error('Stripe checkout session creation failed', error);
     const message = error instanceof Error ? error.message : 'Checkout session creation failed';
     return json(res, 500, { error: message });
   }
