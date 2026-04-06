@@ -106,6 +106,8 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
               <img
                 src={resultModel}
                 alt="Pilates model"
+                loading="lazy"
+                decoding="async"
                 className="w-[118px] max-w-none object-contain object-bottom -mr-2 -mt-1"
               />
             </div>
@@ -149,6 +151,8 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
                   <img
                     src={resultModel}
                     alt="Pilates model"
+                    loading="lazy"
+                    decoding="async"
                     className="w-[220px] max-w-none ml-auto object-contain object-bottom -mr-2"
                   />
                 </div>

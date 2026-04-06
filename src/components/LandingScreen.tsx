@@ -65,6 +65,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
           <img
             src={pilatesfyLogo}
             alt="Pilatesfy"
+            decoding="async"
             className="h-auto w-[120px] sm:w-[140px] mx-auto object-contain"
           />
         </div>
@@ -82,6 +83,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
               <img
                 src={pilatesfyLogo}
                 alt="Pilatesfy"
+                decoding="async"
                 className="h-auto w-[220px] object-contain"
               />
             </div>
@@ -172,13 +174,15 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
                 className="absolute left-16 right-16 bottom-10 h-24 rounded-full bg-pink-primary/28 blur-3xl"
               />
-              <motion.img
-                src={landingModel}
-                alt="Pilates model"
-                animate={{ y: [0, -4, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative z-10 mx-auto w-full max-w-[620px] object-contain object-center drop-shadow-[0_28px_38px_rgba(46,42,43,0.10)]"
-              />
+            <motion.img
+              src={landingModel}
+              alt="Pilates model"
+              decoding="async"
+              fetchPriority="high"
+              animate={{ y: [0, -4, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+              className="relative z-10 mx-auto w-full max-w-[620px] object-contain object-center drop-shadow-[0_28px_38px_rgba(46,42,43,0.10)]"
+            />
             </div>
 
             <div className="grid grid-cols-3 gap-3 px-8 pb-8 pt-2">
@@ -234,6 +238,8 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
             <motion.img
               src={landingModel}
               alt="Pilates model"
+              decoding="async"
+              fetchPriority="high"
               animate={{ y: [0, -4, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
               className="relative z-10 w-full max-w-[360px] mx-auto object-contain object-bottom drop-shadow-[0_18px_28px_rgba(46,42,43,0.08)]"
