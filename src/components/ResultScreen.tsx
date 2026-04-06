@@ -16,9 +16,9 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
   const { q13Message, q14Message } = getPersonalizedMessaging(result.behavioral.q13, result.behavioral.q14);
 
   const pricing = {
-    foundation_reset: { original: '€40', discounted: '€25' },
-    core_sculpt: { original: '€40', discounted: '€25' },
-    elite_flow: { original: '€40', discounted: '€25' }
+    foundation_reset: { original: '€32', discounted: '€20' },
+    core_sculpt: { original: '€39', discounted: '€25' },
+    elite_flow: { original: '€45', discounted: '€30' }
   };
   const currentPrice = pricing[result.program];
   const summaryMeta = {
