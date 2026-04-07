@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { Suspense, lazy, useState } from 'react';
 import { LandingScreen } from './components/LandingScreen';
-import { QuizScreen } from './components/QuizScreen';
-import { LoadingScreen } from './components/LoadingScreen';
-import { ResultScreen } from './components/ResultScreen';
-import { LegalPage } from './components/LegalPage';
 import { calculateResult, QuizResult } from './utils/scoring';
+
+const QuizScreen = lazy(() => import('./components/QuizScreen').then((module) => ({ default: module.QuizScreen })));
+const LoadingScreen = lazy(() => import('./components/LoadingScreen').then((module) => ({ default: module.LoadingScreen })));
+const ResultScreen = lazy(() => import('./components/ResultScreen').then((module) => ({ default: module.ResultScreen })));
+const LegalPage = lazy(() => import('./components/LegalPage').then((module) => ({ default: module.LegalPage })));
 
 type AppState = 'landing' | 'quiz' | 'loading' | 'result' | 'checkout';
 
@@ -15,10 +16,18 @@ export default function App() {
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   if (pathname === '/terms' || pathname === '/terms-and-conditions') {
-    return <LegalPage type="terms" />;
+    return (
+      <Suspense fallback={null}>
+        <LegalPage type="terms" />
+      </Suspense>
+    );
   }
   if (pathname === '/privacy' || pathname === '/privacy-policy') {
-    return <LegalPage type="privacy" />;
+    return (
+      <Suspense fallback={null}>
+        <LegalPage type="privacy" />
+      </Suspense>
+    );
   }
 
   const handleStartQuiz = () => {
@@ -65,12 +74,22 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-bg-main selection:bg-pink-primary/30">
+      <div className="min-h-screen bg-bg-main selection:bg-pink-primary/30">
       {appState === 'landing' && <LandingScreen onStart={handleStartQuiz} />}
-      {appState === 'quiz' && <QuizScreen onComplete={handleQuizComplete} />}
-      {appState === 'loading' && <LoadingScreen onComplete={handleLoadingComplete} />}
+      {appState === 'quiz' && (
+        <Suspense fallback={null}>
+          <QuizScreen onComplete={handleQuizComplete} />
+        </Suspense>
+      )}
+      {appState === 'loading' && (
+        <Suspense fallback={null}>
+          <LoadingScreen onComplete={handleLoadingComplete} />
+        </Suspense>
+      )}
       {appState === 'result' && quizResult && (
-        <ResultScreen result={quizResult} onCheckout={handleCheckout} />
+        <Suspense fallback={null}>
+          <ResultScreen result={quizResult} onCheckout={handleCheckout} />
+        </Suspense>
       )}
       {appState === 'checkout' && (
         <div className="min-h-screen flex items-center justify-center px-6 text-center">

@@ -4,6 +4,7 @@ import { Sparkles, Clock, UserCircle2, CheckCircle2, ArrowRight, Star } from 'lu
 import { Button } from './ui/Button';
 import { trackEvent } from '../utils/analytics';
 import landingModel from '../assets/landing-model.png';
+import landingModelMobile from '../assets/landing-model-mobile.png';
 import pilatesfyLogo from '../assets/pilatesfy-logo.png';
 import { LegalLinks } from './LegalLinks';
 
@@ -174,15 +175,22 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
                 className="absolute left-20 right-20 bottom-12 h-24 rounded-full bg-pink-primary/28 blur-3xl"
               />
-              <motion.img
-                src={landingModel}
-                alt="Pilates model"
-                decoding="async"
-                fetchPriority="high"
+              <motion.picture
                 animate={{ y: [0, -4, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative z-10 mx-auto w-full max-w-[640px] object-contain object-center drop-shadow-[0_28px_38px_rgba(46,42,43,0.10)]"
-              />
+                className="relative z-10 block"
+              >
+                <source media="(max-width: 1024px)" srcSet={landingModelMobile} />
+                <img
+                  src={landingModel}
+                  alt="Pilates model"
+                  decoding="async"
+                  fetchPriority="high"
+                  width={640}
+                  height={640}
+                  className="mx-auto w-full max-w-[640px] object-contain object-center drop-shadow-[0_28px_38px_rgba(46,42,43,0.10)]"
+                />
+              </motion.picture>
             </div>
 
             <div className="px-10 pb-5 pt-1">
@@ -249,15 +257,22 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
               className="absolute inset-x-10 top-7 h-24 rounded-full bg-pink-primary/28 blur-3xl"
             />
-            <motion.img
-              src={landingModel}
-              alt="Pilates model"
-              decoding="async"
-              fetchPriority="high"
+            <motion.picture
               animate={{ y: [0, -4, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative z-10 w-full max-w-[360px] mx-auto object-contain object-bottom drop-shadow-[0_18px_28px_rgba(46,42,43,0.08)]"
-            />
+              className="relative z-10 block"
+            >
+              <source media="(max-width: 640px)" srcSet={landingModelMobile} />
+              <img
+                src={landingModel}
+                alt="Pilates model"
+                decoding="async"
+                fetchPriority="high"
+                width={520}
+                height={520}
+                className="w-full max-w-[360px] mx-auto object-contain object-bottom drop-shadow-[0_18px_28px_rgba(46,42,43,0.08)]"
+              />
+            </motion.picture>
           </div>
 
           <div className="px-3 pb-3.5">

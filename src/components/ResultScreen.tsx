@@ -5,6 +5,7 @@ import { Button } from './ui/Button';
 import { QuizResult, PROGRAM_DETAILS, getPersonalizedMessaging } from '../utils/scoring';
 import { trackEvent } from '../utils/analytics';
 import resultModel from '../assets/result-model.png';
+import resultModelMobile from '../assets/result-model-mobile.png';
 import { LegalLinks } from './LegalLinks';
 
 interface ResultScreenProps {
@@ -104,13 +105,18 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
                   Подбрана според нивото ти, ритъма ти и това, което искаш да постигнеш.
                 </p>
               </div>
-              <img
-                src={resultModel}
-                alt="Pilates model"
-                loading="lazy"
-                decoding="async"
-                className="w-[118px] max-w-none object-contain object-bottom -mr-2 -mt-1"
-              />
+              <picture>
+                <source media="(max-width: 640px)" srcSet={resultModelMobile} />
+                <img
+                  src={resultModel}
+                  alt="Pilates model"
+                  loading="lazy"
+                  decoding="async"
+                  width={118}
+                  height={156}
+                  className="w-[118px] max-w-none object-contain object-bottom -mr-2 -mt-1"
+                />
+              </picture>
             </div>
 
             <div className="grid grid-cols-3 gap-2 border-t border-white/70 py-3">
@@ -149,13 +155,18 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
                       Подбрана според нивото ти, ритъма ти и това, което искаш да постигнеш.
                     </p>
                   </div>
-                  <img
-                    src={resultModel}
-                    alt="Pilates model"
-                    loading="lazy"
-                    decoding="async"
-                    className="w-[220px] max-w-none ml-auto object-contain object-bottom -mr-2"
-                  />
+                  <picture>
+                    <source media="(max-width: 1024px)" srcSet={resultModelMobile} />
+                    <img
+                      src={resultModel}
+                      alt="Pilates model"
+                      loading="lazy"
+                      decoding="async"
+                      width={220}
+                      height={292}
+                      className="w-[220px] max-w-none ml-auto object-contain object-bottom -mr-2"
+                    />
+                  </picture>
                 </div>
 
                 <div className="grid grid-cols-3 gap-3 border-t border-white/70 pt-4 mt-3">
