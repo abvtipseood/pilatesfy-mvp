@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 type LegalPageType = 'terms' | 'privacy';
 
@@ -225,6 +225,44 @@ export const LegalPage: React.FC<LegalPageProps> = ({ type }) => {
   const isTerms = type === 'terms';
   const title = isTerms ? 'Общи условия' : 'Политика за поверителност';
   const content = isTerms ? termsText : privacyText;
+  const pageUrl = isTerms ? 'https://www.pilatesfy.com/terms' : 'https://www.pilatesfy.com/privacy';
+  const pageTitle = isTerms
+    ? 'Общи условия | Pilatesfy'
+    : 'Политика за поверителност | Pilatesfy';
+  const pageDescription = isTerms
+    ? 'Общи условия за ползване на уебсайта и дигиталните продукти на Pilatesfy.'
+    : 'Политика за поверителност и обработка на лични данни на Pilatesfy.';
+
+  useEffect(() => {
+    const upsertMeta = (selector: string, attribute: 'name' | 'property', value: string, contentValue: string) => {
+      let element = document.head.querySelector(selector) as HTMLMetaElement | null;
+      if (!element) {
+        element = document.createElement('meta');
+        element.setAttribute(attribute, value);
+        document.head.appendChild(element);
+      }
+      element.setAttribute('content', contentValue);
+    };
+
+    const upsertCanonical = (href: string) => {
+      let canonical = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonical);
+      }
+      canonical.setAttribute('href', href);
+    };
+
+    document.title = pageTitle;
+    upsertMeta('meta[name="description"]', 'name', 'description', pageDescription);
+    upsertMeta('meta[property="og:title"]', 'property', 'og:title', pageTitle);
+    upsertMeta('meta[property="og:description"]', 'property', 'og:description', pageDescription);
+    upsertMeta('meta[property="og:url"]', 'property', 'og:url', pageUrl);
+    upsertMeta('meta[name="twitter:title"]', 'name', 'twitter:title', pageTitle);
+    upsertMeta('meta[name="twitter:description"]', 'name', 'twitter:description', pageDescription);
+    upsertCanonical(pageUrl);
+  }, [pageDescription, pageTitle, pageUrl]);
 
   return (
     <div className="min-h-screen bg-bg-main px-5 py-8 sm:px-8 sm:py-10">
