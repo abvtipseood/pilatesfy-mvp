@@ -190,12 +190,12 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
                 className="relative z-10 block"
               >
+                <source media="(max-width: 1024px)" srcSet={landingModelMobile} />
                 <img
                   src={landingModel}
                   alt="Pilates model"
-                  loading="lazy"
                   decoding="async"
-                  fetchPriority="low"
+                  fetchPriority="high"
                   width={640}
                   height={640}
                   className="mx-auto w-full max-w-[640px] object-contain object-center drop-shadow-[0_28px_38px_rgba(46,42,43,0.10)]"
