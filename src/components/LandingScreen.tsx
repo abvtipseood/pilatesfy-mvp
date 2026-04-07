@@ -3,6 +3,8 @@ import { motion } from 'motion/react';
 import { Sparkles, Clock, UserCircle2, CheckCircle2, ArrowRight, Star } from 'lucide-react';
 import { Button } from './ui/Button';
 import { trackEvent } from '../utils/analytics';
+import landingModel from '../assets/landing-model.png';
+import landingModelMobile from '../assets/landing-model-mobile.png';
 import pilatesfyLogo from '../assets/pilatesfy-logo.png';
 import { LegalLinks } from './LegalLinks';
 
@@ -13,8 +15,6 @@ interface LandingScreenProps {
 export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
   const [liveUsers, setLiveUsers] = useState(68);
   const [enableAmbientMotion, setEnableAmbientMotion] = useState(false);
-  const landingModel = '/landing-model.png';
-  const landingModelMobile = '/landing-model-mobile.png';
 
   useEffect(() => {
     trackEvent('landing_view');
@@ -36,8 +36,24 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
     // Defer non-critical ambient animation to prioritize first contentful render.
     const motionTimer = window.setTimeout(() => setEnableAmbientMotion(true), 900);
 
+    const mobilePreload = document.createElement('link');
+    mobilePreload.rel = 'preload';
+    mobilePreload.as = 'image';
+    mobilePreload.href = landingModelMobile;
+    mobilePreload.media = '(max-width: 1024px)';
+    document.head.appendChild(mobilePreload);
+
+    const desktopPreload = document.createElement('link');
+    desktopPreload.rel = 'preload';
+    desktopPreload.as = 'image';
+    desktopPreload.href = landingModel;
+    desktopPreload.media = '(min-width: 1025px)';
+    document.head.appendChild(desktopPreload);
+
     return () => {
       window.clearTimeout(motionTimer);
+      mobilePreload.remove();
+      desktopPreload.remove();
     };
   }, []);
 
