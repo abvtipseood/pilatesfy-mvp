@@ -7,13 +7,17 @@ import landingModel from '../assets/landing-model.png';
 import landingModelMobile from '../assets/landing-model-mobile.png';
 import pilatesfyLogo from '../assets/pilatesfy-logo.png';
 import { LegalLinks } from './LegalLinks';
+import { content } from '../i18n/content';
+import type { Language } from '../i18n/types';
 
 interface LandingScreenProps {
   onStart: () => void;
+  language: Language;
 }
 
-export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
+export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart, language }) => {
   const [liveUsers, setLiveUsers] = useState(68);
+  const c = content[language].landing;
 
   useEffect(() => {
     trackEvent('landing_view');
@@ -75,7 +79,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
         <div className="mb-2.5 inline-flex items-center gap-2 rounded-full border border-pink-primary/35 bg-white/68 px-3.5 py-2 shadow-[0_10px_28px_rgba(235,199,207,0.18)] backdrop-blur-sm lg:hidden">
           <Sparkles className="w-[13px] h-[13px] text-pink-secondary" />
           <span className="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-text-secondary">
-            Персонален Pilates Match
+            {c.badge}
           </span>
         </div>
 
@@ -92,15 +96,15 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-pink-primary/35 bg-white/70 px-4 py-2 shadow-[0_10px_28px_rgba(235,199,207,0.16)] backdrop-blur-sm">
               <Sparkles className="w-[14px] h-[14px] text-pink-secondary" />
               <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-text-secondary">
-                Персонален Pilates Match
+                {c.badge}
               </span>
             </div>
             <h1 className="max-w-[590px] text-[4.55rem] font-display font-medium text-text-main leading-[0.9] tracking-[-0.045em]">
-              Открий пилатес програма,
-              <span className="block">персонализирана за теб.</span>
+              {c.heroTitleTop}
+              <span className="block">{c.heroTitleBottom}</span>
             </h1>
             <p className="mt-7 max-w-[510px] text-[19px] leading-[1.68] text-text-secondary/90">
-              Отговори на няколко кратки въпроса и виж коя програма е най-подходяща според нивото, целите и времето ти.
+              {c.heroDescription}
             </p>
             <div className="mt-7 flex items-center gap-2.5 text-[13px] text-text-secondary/82">
               <div className="flex items-center gap-0.5 text-pink-secondary">
@@ -108,7 +112,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
                   <Star key={`desktop-star-${index}`} className="h-4 w-4 fill-current" />
                 ))}
               </div>
-              <span className="font-medium">600+ жени започнаха промяната</span>
+              <span className="font-medium">{c.socialProof}</span>
             </div>
 
             <div className="mt-9 flex items-center gap-5">
@@ -116,7 +120,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
                 onClick={handleStart}
                 className="h-[68px] min-w-[276px] rounded-[1.55rem] border border-white/80 bg-[linear-gradient(90deg,#ddb7bf_0%,#e7c2ca_45%,#e8c9b4_100%)] px-10 text-[20px] tracking-[0.01em] shadow-[0_18px_38px_rgba(235,199,207,0.5),0_2px_0_rgba(255,255,255,0.34)_inset] hover:shadow-[0_18px_38px_rgba(235,199,207,0.62),0_2px_0_rgba(255,255,255,0.34)_inset]"
               >
-                Започни теста
+                {c.startQuiz}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
               <div className="rounded-[1.4rem] border border-white/70 bg-white/56 px-4 py-3 shadow-[0_12px_28px_rgba(235,199,207,0.10)] backdrop-blur-[8px]">
@@ -127,7 +131,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
                   transition={{ duration: 0.35, ease: 'easeOut' }}
                   className="text-[13px] font-medium leading-tight text-text-secondary/80"
                 >
-                  В момента попълват <span className="text-text-main">{liveUsers} души</span>
+                  {c.liveUsers} <span className="text-text-main">{liveUsers} {c.users}</span>
                 </motion.div>
               </div>
             </div>
@@ -135,35 +139,35 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
             <div className="mt-7 flex flex-wrap gap-3 text-[13px] text-text-secondary/78 font-medium">
               <span className="flex items-center gap-2 rounded-full border border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.54),rgba(255,255,255,0.36))] px-4 py-2.5 shadow-[0_8px_18px_rgba(235,199,207,0.10)] backdrop-blur-[6px]">
                 <Sparkles className="w-3.5 h-3.5 text-pink-secondary" />
-                Безплатен тест
+                {c.freeQuiz}
               </span>
               <span className="flex items-center gap-2 rounded-full border border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.54),rgba(255,255,255,0.36))] px-4 py-2.5 shadow-[0_8px_18px_rgba(235,199,207,0.10)] backdrop-blur-[6px]">
                 <Clock className="w-3.5 h-3.5 text-pink-secondary" />
-                Под 1 минута
+                {c.oneMinute}
               </span>
               <span className="flex items-center gap-2 rounded-full border border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.54),rgba(255,255,255,0.36))] px-4 py-2.5 shadow-[0_8px_18px_rgba(235,199,207,0.10)] backdrop-blur-[6px]">
                 <UserCircle2 className="w-3.5 h-3.5 text-pink-secondary" />
-                Без регистрация
+                {c.noRegistration}
               </span>
             </div>
 
-            <LegalLinks className="mt-6 text-left" />
+            <LegalLinks className="mt-6 text-left" language={language} />
           </div>
 
           <div className="isolate w-full rounded-[2.75rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.74))] shadow-[0_34px_70px_rgba(235,199,207,0.20)] overflow-hidden">
             <div className="px-10 pt-9">
               <div className="text-center">
                 <div className="inline-flex items-center rounded-full bg-pink-primary/14 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-pink-secondary">
-                  Персонален match
+                  {c.personalMatch}
                 </div>
 
                 <div className="mt-6">
                   <p className="mx-auto max-w-[440px] text-[37px] font-display font-semibold leading-[1.02] tracking-[-0.032em] text-text-main">
-                    Твоят план започва
-                    <span className="block">с ясна посока</span>
+                    {c.planStartsTop}
+                    <span className="block">{c.planStartsBottom}</span>
                   </p>
                   <p className="mx-auto mt-5 max-w-[430px] text-[15px] leading-[1.8] text-text-secondary/92">
-                    Персонализирана препоръка според твоето ниво, ритъм и цели, за да започнеш уверено още днес.
+                    {c.planStartsDescription}
                   </p>
                 </div>
               </div>
@@ -199,26 +203,26 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
                   <p className="text-[12px] font-medium leading-[1.35] text-text-secondary/76">Pilatesfy fit</p>
                 </div>
                 <div className="border-l border-r border-white/70 px-4 py-3 text-center">
-                  <p className="text-[12px] font-medium leading-[1.35] text-text-secondary/76">Персонална насока</p>
+                  <p className="text-[12px] font-medium leading-[1.35] text-text-secondary/76">{c.guidance}</p>
                 </div>
                 <div className="px-4 py-3 text-center">
-                  <p className="text-[12px] font-medium leading-[1.35] text-text-secondary/76">Съобразена с твоето ниво и ритъм.</p>
+                  <p className="text-[12px] font-medium leading-[1.35] text-text-secondary/76">{c.tailoredLevel}</p>
                 </div>
               </div>
             </div>
 
             <div className="grid grid-cols-3 gap-4 px-10 pb-9 pt-1">
               <div className="rounded-[1.55rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(255,255,255,0.56))] px-4 py-4 text-center shadow-[0_12px_24px_rgba(235,199,207,0.12)] backdrop-blur-[6px]">
-                <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary/58">Ниво</p>
-                <p className="mt-2 text-[16px] font-medium leading-[1.2] text-text-main">За теб</p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary/58">{c.level}</p>
+                <p className="mt-2 text-[16px] font-medium leading-[1.2] text-text-main">{c.forYou}</p>
               </div>
               <div className="rounded-[1.55rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(255,255,255,0.56))] px-4 py-4 text-center shadow-[0_12px_24px_rgba(235,199,207,0.12)] backdrop-blur-[6px]">
-                <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary/58">Време</p>
-                <p className="mt-2 text-[16px] font-medium leading-[1.2] text-text-main">1 минута</p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary/58">{c.time}</p>
+                <p className="mt-2 text-[16px] font-medium leading-[1.2] text-text-main">{c.oneMinuteShort}</p>
               </div>
               <div className="rounded-[1.55rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(255,255,255,0.56))] px-4 py-4 text-center shadow-[0_12px_24px_rgba(235,199,207,0.12)] backdrop-blur-[6px]">
-                <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary/58">Резултат</p>
-                <p className="mt-2 text-[16px] font-medium leading-[1.2] text-text-main">Персонален план</p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-text-secondary/58">{c.result}</p>
+                <p className="mt-2 text-[16px] font-medium leading-[1.2] text-text-main">{c.personalPlan}</p>
               </div>
             </div>
           </div>
@@ -228,17 +232,17 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
           <div className="px-4 pt-4.5">
             <h1 className="text-[28px] sm:text-[58px] font-display font-medium text-text-main leading-[1.02] sm:leading-[0.98] mb-3 tracking-[-0.025em] w-full max-w-[320px] mx-auto">
               <span className="sm:hidden">
-                Открий персонализирана
-                <span className="block">пилатес програма за теб</span>
+                {c.heroTitleTop}
+                <span className="block">{c.heroTitleBottom}</span>
               </span>
               <span className="hidden sm:inline">
-                Открий пилатес програма,
-                <span className="block">персонализирана за теб.</span>
+                {c.heroTitleTop}
+                <span className="block">{c.heroTitleBottom}</span>
               </span>
             </h1>
             
             <p className="text-[13.5px] sm:text-[18px] text-text-secondary/92 mb-3.5 leading-[1.48] w-full max-w-[286px] sm:max-w-[430px] mx-auto text-balance">
-              Отговори на няколко кратки въпроса и виж коя програма е най-подходяща според нивото, целите и времето ти.
+              {c.heroDescription}
             </p>
 
             <div className="flex items-center justify-center gap-2 text-[11.5px] text-text-secondary/82 mb-4">
@@ -247,7 +251,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
                   <Star key={index} className="h-3.5 w-3.5 fill-current" />
                 ))}
               </div>
-              <span className="font-medium">600+ жени започнаха промяната</span>
+              <span className="font-medium">{c.socialProof}</span>
             </div>
           </div>
 
@@ -278,16 +282,16 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
           <div className="px-3 pb-3.5">
             <div className="grid w-full grid-cols-3 gap-2">
               <div className="rounded-[1.2rem] border border-white/75 bg-white/60 px-2 py-2.5 text-center shadow-[0_10px_24px_rgba(235,199,207,0.12)]">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">Ниво</p>
-                <p className="mt-1 text-[13px] font-semibold text-text-main">За теб</p>
+                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">{c.level}</p>
+                <p className="mt-1 text-[13px] font-semibold text-text-main">{c.forYou}</p>
               </div>
               <div className="rounded-[1.2rem] border border-white/75 bg-white/60 px-2 py-2.5 text-center shadow-[0_10px_24px_rgba(235,199,207,0.12)]">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">Време</p>
-                <p className="mt-1 text-[13px] font-semibold text-text-main">1 минута</p>
+                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">{c.time}</p>
+                <p className="mt-1 text-[13px] font-semibold text-text-main">{c.oneMinuteShort}</p>
               </div>
               <div className="rounded-[1.2rem] border border-white/75 bg-white/60 px-2 py-2.5 text-center shadow-[0_10px_24px_rgba(235,199,207,0.12)]">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">Резултат</p>
-                <p className="mt-1 text-[13px] font-semibold text-text-main">План</p>
+                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">{c.result}</p>
+                <p className="mt-1 text-[13px] font-semibold text-text-main">{c.planShort}</p>
               </div>
             </div>
           </div>
@@ -306,7 +310,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
             onClick={handleStart}
             className="h-[58px] sm:h-16 border border-white/75 bg-[linear-gradient(90deg,#ddb7bf_0%,#e7c2ca_45%,#e8c9b4_100%)] text-[17px] sm:text-lg tracking-[0.01em] shadow-[0_16px_34px_rgba(235,199,207,0.52),0_2px_0_rgba(255,255,255,0.34)_inset] hover:shadow-[0_16px_34px_rgba(235,199,207,0.64),0_2px_0_rgba(255,255,255,0.34)_inset] sm:shadow-[0_8px_30px_rgba(235,199,207,0.5)] sm:hover:shadow-[0_8px_30px_rgba(235,199,207,0.7)]"
           >
-            Започни теста
+            {c.startQuiz}
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
 
@@ -317,13 +321,13 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
             transition={{ duration: 0.35, ease: 'easeOut' }}
             className="text-center text-[11.5px] font-medium text-text-secondary/78"
           >
-            В момента попълват <span className="text-text-main">{liveUsers} души</span>
+            {c.liveUsers} <span className="text-text-main">{liveUsers} {c.users}</span>
           </motion.div>
 
           <div className="rounded-[1.35rem] border border-white/75 bg-white/55 px-4 py-3.5 text-center shadow-[0_10px_24px_rgba(235,199,207,0.14)] backdrop-blur-[6px]">
             <div className="flex items-center justify-center gap-2 text-[12.5px] sm:text-[13px] font-medium text-text-main">
               <CheckCircle2 className="h-4 w-4 text-pink-secondary" />
-              Ще разбереш коя програма ти пасва най-добре
+              {c.fitMessage}
             </div>
           </div>
 
@@ -331,19 +335,19 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
           <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2 text-[11px] sm:text-[13px] text-text-secondary/78 font-medium">
             <span className="flex items-center gap-1.5 rounded-full border border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.5),rgba(255,255,255,0.32))] px-2.5 py-1.5 shadow-[0_8px_18px_rgba(235,199,207,0.10)] backdrop-blur-[6px] sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:shadow-none">
               <Sparkles className="w-3.5 h-3.5 text-pink-secondary" />
-              Безплатен тест
+              {c.freeQuiz}
             </span>
             <span className="flex items-center gap-1.5 rounded-full border border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.5),rgba(255,255,255,0.32))] px-2.5 py-1.5 shadow-[0_8px_18px_rgba(235,199,207,0.10)] backdrop-blur-[6px] sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:shadow-none">
               <Clock className="w-3.5 h-3.5 text-pink-secondary" />
-              Под 1 минута
+              {c.oneMinute}
             </span>
             <span className="flex items-center gap-1.5 rounded-full border border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.5),rgba(255,255,255,0.32))] px-2.5 py-1.5 shadow-[0_8px_18px_rgba(235,199,207,0.10)] backdrop-blur-[6px] sm:rounded-none sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:shadow-none">
               <UserCircle2 className="w-3.5 h-3.5 text-pink-secondary" />
-              Без регистрация
+              {c.noRegistration}
             </span>
           </div>
 
-          <LegalLinks className="pt-1" />
+          <LegalLinks className="pt-1" language={language} />
         </div>
       </motion.div>
     </div>

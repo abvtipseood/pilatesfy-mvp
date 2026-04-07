@@ -2,20 +2,24 @@ import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { CheckCircle2, AlertCircle, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
 import { Button } from './ui/Button';
-import { QuizResult, PROGRAM_DETAILS, getPersonalizedMessaging } from '../utils/scoring';
+import { QuizResult } from '../utils/scoring';
 import { trackEvent } from '../utils/analytics';
 import resultModel from '../assets/result-model.png';
 import resultModelMobile from '../assets/result-model-mobile.png';
 import { LegalLinks } from './LegalLinks';
+import type { Language } from '../i18n/types';
+import { content, getPersonalizedMessages, getProgramDetails } from '../i18n/content';
 
 interface ResultScreenProps {
   result: QuizResult;
   onCheckout: () => void;
+  language: Language;
 }
 
-export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }) => {
-  const program = PROGRAM_DETAILS[result.program];
-  const { q13Message, q14Message } = getPersonalizedMessaging(result.behavioral.q13, result.behavioral.q14);
+export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout, language }) => {
+  const c = content[language].result;
+  const program = getProgramDetails(language, result.program);
+  const { q13Message, q14Message } = getPersonalizedMessages(language, result.behavioral.q13, result.behavioral.q14);
 
   const pricing = {
     foundation_reset: { original: '€32', discounted: '€20' },
@@ -23,11 +27,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
     elite_flow: { original: '€45', discounted: '€30' }
   };
   const currentPrice = pricing[result.program];
-  const summaryMeta = {
-    foundation_reset: { level: 'Начинаещо', tempo: 'Спокойно', duration: '4 седмици' },
-    core_sculpt: { level: 'Средно', tempo: 'Балансирано', duration: '6 седмици' },
-    elite_flow: { level: 'Напреднало', tempo: 'Интензивно', duration: '8 седмици' }
-  } as const;
+  const summaryMeta = c.summaryMeta;
   const currentMeta = summaryMeta[result.program];
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
           <div className="inline-flex items-center justify-center px-4 py-1.5 bg-white/80 backdrop-blur-sm border border-pink-primary/30 rounded-full mb-4 sm:mb-6 shadow-sm">
             <Sparkles className="w-4 h-4 text-pink-secondary mr-2" />
             <span className="text-xs font-semibold tracking-[0.15em] uppercase text-text-main/80">
-              Твоята препоръка
+              {c.recommendation}
             </span>
           </div>
           
@@ -96,13 +96,13 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
             <div className="flex items-start justify-between gap-3 mb-4">
               <div className="min-w-0">
                 <div className="inline-flex items-center rounded-full bg-pink-primary/14 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-pink-secondary mb-2">
-                  Твоят match
+                  {c.yourMatch}
                 </div>
                 <h3 className="text-[1.45rem] font-display font-semibold text-text-main leading-[1.05]">
                   {program.title}
                 </h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-text-secondary">
-                  Подбрана според нивото ти, ритъма ти и това, което искаш да постигнеш.
+                  {c.selectedByGoals}
                 </p>
               </div>
               <picture>
@@ -121,15 +121,15 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
 
             <div className="grid grid-cols-3 gap-2 border-t border-white/70 py-3">
               <div className="rounded-[1.1rem] bg-bg-main/78 px-2 py-2.5 text-center">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">Ниво</p>
+                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">{c.level}</p>
                 <p className="mt-1 text-[13px] font-semibold text-text-main">{currentMeta.level}</p>
               </div>
               <div className="rounded-[1.1rem] bg-bg-main/78 px-2 py-2.5 text-center">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">Темпо</p>
+                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">{c.tempo}</p>
                 <p className="mt-1 text-[13px] font-semibold text-text-main">{currentMeta.tempo}</p>
               </div>
               <div className="rounded-[1.1rem] bg-bg-main/78 px-2 py-2.5 text-center">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">План</p>
+                <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">{c.plan}</p>
                 <p className="mt-1 text-[13px] font-semibold text-text-main">{currentMeta.duration}</p>
               </div>
             </div>
@@ -146,13 +146,13 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
                 <div className="grid grid-cols-[1.05fr_0.95fr] items-end gap-5">
                   <div className="min-w-0">
                     <div className="inline-flex items-center rounded-full bg-pink-primary/14 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-pink-secondary mb-3">
-                      Твоят match
+                      {c.yourMatch}
                     </div>
                     <h3 className="text-[2rem] font-display font-semibold text-text-main leading-[1.02]">
                       {program.title}
                     </h3>
                     <p className="mt-3 text-[15px] leading-relaxed text-text-secondary max-w-[360px]">
-                      Подбрана според нивото ти, ритъма ти и това, което искаш да постигнеш.
+                      {c.selectedByGoals}
                     </p>
                   </div>
                   <picture>
@@ -171,15 +171,15 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
 
                 <div className="grid grid-cols-3 gap-3 border-t border-white/70 pt-4 mt-3">
                   <div className="rounded-[1.1rem] bg-bg-main/78 px-3 py-3 text-center">
-                    <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">Ниво</p>
+                    <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">{c.level}</p>
                     <p className="mt-1 text-[13px] font-semibold text-text-main">{currentMeta.level}</p>
                   </div>
                   <div className="rounded-[1.1rem] bg-bg-main/78 px-3 py-3 text-center">
-                    <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">Темпо</p>
+                    <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">{c.tempo}</p>
                     <p className="mt-1 text-[13px] font-semibold text-text-main">{currentMeta.tempo}</p>
                   </div>
                   <div className="rounded-[1.1rem] bg-bg-main/78 px-3 py-3 text-center">
-                    <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">План</p>
+                    <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">{c.plan}</p>
                     <p className="mt-1 text-[13px] font-semibold text-text-main">{currentMeta.duration}</p>
                   </div>
                 </div>
@@ -191,7 +191,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
               <div className="bg-white/60 backdrop-blur-md p-5 sm:p-7 lg:p-8 rounded-[1.8rem] sm:rounded-3xl shadow-[0_12px_28px_rgba(235,199,207,0.12)] border border-white/80 relative overflow-hidden">
                 <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-pink-primary to-pink-secondary" />
                 <h3 className="text-[1.35rem] sm:text-xl font-display font-medium text-text-main mb-3">
-                  Създадена за твоя начин на живот
+                  {c.builtForLifestyle}
                 </h3>
                 <p className="text-[14px] sm:text-[15px] lg:text-base text-text-secondary mb-3 leading-relaxed">
                   {q13Message}
@@ -205,7 +205,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
             {/* Benefits List */}
             <motion.div variants={itemVariants} className="px-0 sm:px-2 lg:px-0">
               <h3 className="text-[1.1rem] sm:text-lg font-display font-medium text-text-main mb-4 opacity-90">
-                Какво ще постигнеш:
+                {c.whatYouWillAchieve}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 {program.benefits.map((benefit, idx) => (
@@ -219,7 +219,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
                     </div>
                     <div>
                       <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/60 mb-1 sm:hidden">
-                        Резултат
+                        {c.resultLabel}
                       </p>
                       <span className="text-[14px] sm:text-[15px] lg:text-[16px] font-medium leading-snug text-text-main">{benefit}</span>
                     </div>
@@ -234,7 +234,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
                 <div className="flex items-start p-4 sm:p-5 bg-sand-soft/60 rounded-[1.4rem] sm:rounded-3xl border border-sand-soft">
                   <AlertCircle className="w-5 h-5 text-text-secondary mr-3 flex-shrink-0 mt-0.5" />
                   <p className="text-[13px] sm:text-[14px] text-text-secondary leading-relaxed">
-                    Ако имаш постоянен дискомфорт или сериозни оплаквания, е добра идея да се консултираш със специалист преди да започнеш.
+                    {c.painWarning}
                   </p>
                 </div>
               </motion.div>
@@ -247,40 +247,40 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
               <div className="bg-white p-5 sm:p-8 lg:p-10 rounded-[1.8rem] sm:rounded-[32px] shadow-[0_20px_40px_-15px_rgba(235,199,207,0.4)] border border-pink-primary/10 text-center relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-sand-soft/50 to-transparent rounded-bl-full pointer-events-none" />
                 <div className="mb-3 inline-flex items-center rounded-full bg-pink-primary/14 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-pink-secondary relative z-10">
-                  Персонална препоръка
+                  {c.personalRecommendation}
                 </div>
 
                 <h3 className="text-[1.7rem] sm:text-2xl lg:text-3xl font-display font-semibold text-text-main mb-3 sm:mb-6 text-balance relative z-10">
-                  Започни своята програма още днес
+                  {c.ctaTitle}
                 </h3>
 
                 <p className="text-[13px] sm:hidden text-text-secondary mb-4 relative z-10 max-w-[250px] mx-auto leading-relaxed">
-                  Имаш ясна посока. Следващата стъпка е да започнеш с програмата, която най-много ти пасва.
+                  {c.ctaDescriptionMobile}
                 </p>
                 
                 <ul className="text-left space-y-3 sm:space-y-4 mb-5 sm:mb-8 text-[14px] sm:text-[15px] lg:text-base text-text-secondary relative z-10 max-w-[280px] mx-auto">
                   <li className="flex items-center">
                     <ShieldCheck className="w-5 h-5 text-pink-secondary mr-3 flex-shrink-0" /> 
-                    <span>Ясен план стъпка по стъпка</span>
+                    <span>{c.bullets[0]}</span>
                   </li>
                   <li className="flex items-center">
                     <ShieldCheck className="w-5 h-5 text-pink-secondary mr-3 flex-shrink-0" /> 
-                    <span>Видео тренировки</span>
+                    <span>{c.bullets[1]}</span>
                   </li>
                   <li className="flex items-center">
                     <ShieldCheck className="w-5 h-5 text-pink-secondary mr-3 flex-shrink-0" /> 
-                    <span>Персонализирана програма на email</span>
+                    <span>{c.bullets[2]}</span>
                   </li>
                   <li className="flex items-center">
                     <ShieldCheck className="w-5 h-5 text-pink-secondary mr-3 flex-shrink-0" /> 
-                    <span>Достъп веднага след покупка</span>
+                    <span>{c.bullets[3]}</span>
                   </li>
                 </ul>
                 
                 {/* Optimized Price Block (Moved above CTA for better CRO & UX) */}
                 <div className="mb-5 sm:mb-6 relative z-10 rounded-[1.3rem] bg-bg-main/70 px-4 py-4 flex flex-col items-center">
                   <div className="flex items-center justify-center gap-2 text-[11px] uppercase tracking-[0.16em] text-text-secondary/65 mb-2">
-                    Специална цена днес
+                    {c.specialPriceToday}
                   </div>
                   <div className="flex items-baseline justify-center gap-2.5">
                     <span className="text-base sm:text-lg text-text-secondary/50 line-through font-medium decoration-1">
@@ -291,7 +291,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
                     </span>
                   </div>
                   <span className="text-[11px] text-pink-secondary uppercase tracking-[0.15em] font-medium mt-1 block">
-                    Еднократно плащане
+                    {c.oneTimePayment}
                   </span>
                 </div>
                 
@@ -300,18 +300,18 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
                   onClick={handleCheckout} 
                   className="mb-3 h-[58px] sm:h-14 lg:h-16 text-[17px] sm:text-lg shadow-[0_10px_24px_rgba(235,199,207,0.42)] hover:shadow-[0_10px_28px_rgba(235,199,207,0.62)] relative z-10 group"
                 >
-                  Продължи към програмата
+                  {c.ctaButton}
                   <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 
                 <p className="text-[12px] sm:text-[13px] text-text-secondary/70 relative z-10 max-w-[250px] mx-auto">
-                  Ясен старт, веднага след следващата стъпка.
+                  {c.footerHint}
                 </p>
 
                 <p className="mt-4 text-[11px] sm:text-[12px] text-text-secondary/70">
-                  С продължаване приемаш нашите условия и политика.
+                  {c.legalHint}
                 </p>
-                <LegalLinks className="mt-2" />
+                <LegalLinks className="mt-2" language={language} />
               </div>
             </motion.div>
           </div>

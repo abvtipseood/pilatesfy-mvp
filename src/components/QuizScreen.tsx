@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft } from 'lucide-react';
-import { questions } from '../data/questions';
+import { getQuestions } from '../i18n/questions';
 import { OptionCard } from './ui/OptionCard';
 import { ProgressBar } from './ui/ProgressBar';
 import { trackEvent } from '../utils/analytics';
+import type { Language } from '../i18n/types';
+import { content } from '../i18n/content';
 
 interface QuizScreenProps {
   onComplete: (answers: Record<number, number | string>) => void;
+  language: Language;
 }
 
-export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete }) => {
+export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete, language }) => {
+  const questions = getQuestions(language);
+  const c = content[language].quiz;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number | string>>({});
   const [direction, setDirection] = useState(1); // 1 for forward, -1 for backward
@@ -86,16 +91,16 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete }) => {
         <button 
           onClick={handleBack}
           className={`flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-white/65 text-text-secondary transition-colors ${currentIndex === 0 ? 'invisible' : ''}`}
-          aria-label="Назад"
+          aria-label={c.backAria}
         >
           <ArrowLeft size={20} />
         </button>
         <div className="text-center">
           <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-text-secondary/70">
-            Pilatesfy quiz
+            {c.quizLabel}
           </p>
           <span className="text-sm font-medium text-text-secondary">
-            Въпрос {currentIndex + 1} от {questions.length}
+            {c.questionOf.replace('{current}', `${currentIndex + 1}`).replace('{total}', `${questions.length}`)}
           </span>
         </div>
         <div className="w-10" />
@@ -104,10 +109,10 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete }) => {
       <div className="relative z-10 mb-4 lg:mb-8 rounded-[1.65rem] border border-white/75 bg-[linear-gradient(180deg,rgba(255,255,255,0.68),rgba(255,255,255,0.56))] px-4 py-4 lg:rounded-[2rem] lg:px-7 lg:py-5 shadow-[0_14px_32px_rgba(235,199,207,0.14)] backdrop-blur-[8px]">
         <div className="flex items-center justify-between mb-3 lg:mb-5">
           <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-text-secondary/70">
-            Прогрес
+            {c.progress}
           </span>
           <span className="rounded-full bg-white/72 px-2.5 py-1 text-[11px] font-medium text-text-secondary shadow-[0_6px_16px_rgba(235,199,207,0.08)] lg:bg-transparent lg:px-0 lg:py-0 lg:text-[13px] lg:shadow-none">
-            Остават {remainingQuestions}
+            {c.remaining.replace('{count}', `${remainingQuestions}`)}
           </span>
         </div>
 
@@ -149,7 +154,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete }) => {
             exit={{ opacity: 0 }}
             className="mb-4 text-center text-sm font-medium text-pink-secondary"
           >
-            Остава съвсем малко… резултатът ти почти е готов
+            {c.almostDone}
           </motion.div>
         )}
       </AnimatePresence>
@@ -170,7 +175,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({ onComplete }) => {
             <div className="rounded-[1.75rem] border border-white/75 bg-white/72 px-4 py-4.5 lg:rounded-[2.25rem] lg:px-10 lg:py-8 shadow-[0_20px_40px_rgba(235,199,207,0.16)] backdrop-blur-[10px] mb-4 lg:mb-6">
               <div className="mb-3.5 flex items-center justify-between lg:mb-5">
                 <span className="rounded-full bg-pink-primary/14 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-pink-secondary">
-                  Въпрос {currentIndex + 1}
+                  {c.question.replace('{current}', `${currentIndex + 1}`)}
                 </span>
                 <span className="text-[11px] font-medium text-text-secondary/75 lg:text-[12px]">
                   {progress}%

@@ -1,27 +1,19 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import type { Language } from '../i18n/types';
+import { content } from '../i18n/content';
 
 interface LoadingScreenProps {
   onComplete: () => void;
+  language: Language;
 }
 
 const TOTAL_DURATION = 6800;
 
-const FACTS = [
-  'Пилатесът подпомага стойката, контрола и стабилността на центъра на тялото.',
-  'Редовното движение може да помогне за по-добро усещане за енергия и ритъм в ежедневието.',
-  'Дори кратки, но постоянни тренировки често водят до по-осезаем резултат от хаотични дълги сесии.',
-  'Силният център на тялото подпомага по-добър баланс и по-стабилни движения.',
-];
-
-const STAGES = [
-  'Анализираме твоите отговори',
-  'Подготвяме твоя персонален план',
-  'Съпоставяме целите ти с най-подходящата програма',
-  'Финализираме препоръката ти',
-];
-
-export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
+export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete, language }) => {
+  const c = content[language].loading;
+  const FACTS = c.facts;
+  const STAGES = c.stages;
   const [elapsed, setElapsed] = useState(0);
   const [factIndex, setFactIndex] = useState(0);
 
@@ -46,7 +38,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
       window.clearInterval(factTimer);
       window.clearTimeout(completeTimer);
     };
-  }, [onComplete]);
+  }, [onComplete, FACTS.length]);
 
   const progress = Math.min(100, Math.round((elapsed / TOTAL_DURATION) * 100));
 
@@ -57,7 +49,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
     );
 
     return STAGES[stageIndex];
-  }, [progress]);
+  }, [progress, STAGES]);
 
   return (
     <div className="min-h-screen relative overflow-hidden px-5 py-8 md:px-6 md:py-10 flex items-center justify-center">
@@ -69,23 +61,23 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
           <div className="grid gap-6 md:gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div className="text-center lg:text-left">
               <div className="inline-flex items-center rounded-full border border-pink-primary/30 bg-white/65 px-3.5 py-2 text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.18em] text-text-secondary shadow-[0_10px_24px_rgba(235,199,207,0.12)]">
-                Персонален анализ
+                {c.badge}
               </div>
 
               <h2 className="mt-4 md:mt-5 text-[1.8rem] md:text-[2.8rem] font-display font-semibold leading-[1] tracking-[-0.03em] text-text-main">
-                Подготвяме твоята
-                <span className="block">персонална програма</span>
+                {c.titleTop}
+                <span className="block">{c.titleBottom}</span>
               </h2>
 
               <p className="mt-3.5 md:mt-4 max-w-[460px] text-[14px] md:text-[17px] leading-[1.65] text-text-secondary">
-                Още малко. Съпоставяме твоите цели, ниво и ритъм, за да ти покажем най-подходящия старт.
+                {c.description}
               </p>
             </div>
 
             <div className="rounded-[1.6rem] md:rounded-[2rem] border border-white/75 bg-white/68 p-4 md:p-6 shadow-[0_18px_40px_rgba(235,199,207,0.14)]">
               <div className="flex items-center justify-between gap-4">
                 <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-text-secondary/70">
-                  Статус
+                  {c.status}
                 </span>
                 <span className="text-sm font-semibold text-text-main">
                   {progress}%
@@ -102,7 +94,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
 
               <div className="mt-4 md:mt-5 rounded-[1.2rem] md:rounded-[1.4rem] border border-white/75 bg-bg-main/70 px-4 py-4">
                 <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/60">
-                  В момента
+                  {c.now}
                 </p>
                 <AnimatePresence mode="wait">
                   <motion.p
@@ -120,9 +112,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
 
               <div className="mt-4 md:mt-5 grid grid-cols-3 gap-2.5 md:gap-3">
                 {[
-                  'Ниво',
-                  'Цели',
-                  'Ритъм',
+                  ...c.metrics,
                 ].map((item) => (
                   <div
                     key={item}
@@ -131,14 +121,14 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
                     <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/65">
                       {item}
                     </p>
-                    <p className="mt-1 text-[13px] md:text-[14px] font-semibold text-text-main">Обработва се</p>
+                    <p className="mt-1 text-[13px] md:text-[14px] font-semibold text-text-main">{c.processing}</p>
                   </div>
                 ))}
               </div>
 
               <div className="mt-4 md:mt-5 rounded-[1.2rem] md:rounded-[1.4rem] border border-white/75 bg-white/58 px-4 py-4 shadow-[0_10px_24px_rgba(235,199,207,0.10)]">
                 <p className="text-[10px] uppercase tracking-[0.16em] text-text-secondary/60">
-                  Полезен факт
+                  {c.usefulFact}
                 </p>
                 <AnimatePresence mode="wait">
                   <motion.p
