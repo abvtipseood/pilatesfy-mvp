@@ -14,7 +14,6 @@ interface LandingScreenProps {
 
 export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
   const [liveUsers, setLiveUsers] = useState(68);
-  const [enableAmbientMotion, setEnableAmbientMotion] = useState(false);
 
   useEffect(() => {
     trackEvent('landing_view');
@@ -32,31 +31,6 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
     return () => window.clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    // Defer non-critical ambient animation to prioritize first contentful render.
-    const motionTimer = window.setTimeout(() => setEnableAmbientMotion(true), 900);
-
-    const mobilePreload = document.createElement('link');
-    mobilePreload.rel = 'preload';
-    mobilePreload.as = 'image';
-    mobilePreload.href = landingModelMobile;
-    mobilePreload.media = '(max-width: 1024px)';
-    document.head.appendChild(mobilePreload);
-
-    const desktopPreload = document.createElement('link');
-    desktopPreload.rel = 'preload';
-    desktopPreload.as = 'image';
-    desktopPreload.href = landingModel;
-    desktopPreload.media = '(min-width: 1025px)';
-    document.head.appendChild(desktopPreload);
-
-    return () => {
-      window.clearTimeout(motionTimer);
-      mobilePreload.remove();
-      desktopPreload.remove();
-    };
-  }, []);
-
   const handleStart = () => {
     trackEvent('quiz_start');
     onStart();
@@ -66,18 +40,18 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
     <div className="min-h-[100dvh] flex flex-col px-5 py-6 sm:px-6 sm:py-8 relative overflow-hidden bg-bg-main">
       {/* Animated Premium Background Orbs */}
       <motion.div 
-        animate={enableAmbientMotion ? {
+        animate={{ 
           scale: [1, 1.1, 1],
           opacity: [0.3, 0.5, 0.3],
-        } : undefined}
+        }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         className="absolute top-[-12%] right-[-12%] w-[42vw] h-[42vw] min-w-[240px] min-h-[240px] sm:min-w-[300px] sm:min-h-[300px] bg-pink-primary/30 rounded-full blur-[88px] pointer-events-none" 
       />
       <motion.div 
-        animate={enableAmbientMotion ? {
+        animate={{ 
           scale: [1, 1.2, 1],
           opacity: [0.2, 0.4, 0.2],
-        } : undefined}
+        }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
         className="absolute bottom-[-12%] left-[-12%] w-[54vw] h-[54vw] min-w-[260px] min-h-[260px] sm:min-w-[350px] sm:min-h-[350px] bg-sand-soft/60 rounded-full blur-[88px] pointer-events-none" 
       />
@@ -197,12 +171,12 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
 
             <div className="relative mt-4 min-h-[332px] px-10">
               <motion.div
-                animate={enableAmbientMotion ? { y: [0, -6, 0], scale: [1, 1.015, 1] } : undefined}
+                animate={{ y: [0, -6, 0], scale: [1, 1.015, 1] }}
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
                 className="absolute left-20 right-20 bottom-12 h-24 rounded-full bg-pink-primary/28 blur-3xl"
               />
               <motion.picture
-                animate={enableAmbientMotion ? { y: [0, -4, 0] } : undefined}
+                animate={{ y: [0, -4, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
                 className="relative z-10 block"
               >
@@ -279,12 +253,12 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
 
           <div className="relative px-3 pt-1">
             <motion.div
-              animate={enableAmbientMotion ? { y: [0, -5, 0], scale: [1, 1.015, 1] } : undefined}
+              animate={{ y: [0, -5, 0], scale: [1, 1.015, 1] }}
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
               className="absolute inset-x-10 top-7 h-24 rounded-full bg-pink-primary/28 blur-3xl"
             />
             <motion.picture
-              animate={enableAmbientMotion ? { y: [0, -4, 0] } : undefined}
+              animate={{ y: [0, -4, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
               className="relative z-10 block"
             >
