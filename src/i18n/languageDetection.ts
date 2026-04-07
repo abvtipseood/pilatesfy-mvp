@@ -7,6 +7,7 @@ const countryLanguageMap: Record<string, Language> = {
   CH: 'de',
   LI: 'de',
   LU: 'de',
+  BE: 'de',
 };
 
 const timezoneLanguageMap: Array<{ pattern: RegExp; language: Language }> = [
@@ -39,10 +40,5 @@ export function detectLanguageByCountry(): Language {
     }
   }
 
-  const primaryLocale = (localeCandidates[0] || '').toLowerCase();
-  if (primaryLocale.startsWith('bg')) return 'bg';
-  if (primaryLocale.startsWith('de')) return 'de';
-
   return 'en';
 }
-
