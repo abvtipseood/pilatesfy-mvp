@@ -4,6 +4,7 @@ import { calculateResult, QuizResult } from './utils/scoring';
 import { content } from './i18n/content';
 import type { Language } from './i18n/types';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
+import { detectLanguageByCountry } from './i18n/languageDetection';
 
 const QuizScreen = lazy(() => import('./components/QuizScreen').then((module) => ({ default: module.QuizScreen })));
 const LoadingScreen = lazy(() => import('./components/LoadingScreen').then((module) => ({ default: module.LoadingScreen })));
@@ -16,10 +17,7 @@ export default function App() {
   const detectInitialLanguage = (): Language => {
     const stored = window.localStorage.getItem('pilatesfy-language');
     if (stored === 'bg' || stored === 'en' || stored === 'de') return stored;
-    const nav = (window.navigator.language || '').toLowerCase();
-    if (nav.startsWith('de')) return 'de';
-    if (nav.startsWith('en')) return 'en';
-    return 'bg';
+    return detectLanguageByCountry();
   };
 
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
