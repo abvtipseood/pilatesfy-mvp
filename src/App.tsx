@@ -3,14 +3,23 @@ import { LandingScreen } from './components/LandingScreen';
 import { QuizScreen } from './components/QuizScreen';
 import { LoadingScreen } from './components/LoadingScreen';
 import { ResultScreen } from './components/ResultScreen';
+import { LegalPage } from './components/LegalPage';
 import { calculateResult, QuizResult } from './utils/scoring';
 
 type AppState = 'landing' | 'quiz' | 'loading' | 'result' | 'checkout';
 
 export default function App() {
+  const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
   const [appState, setAppState] = useState<AppState>('landing');
   const [quizResult, setQuizResult] = useState<QuizResult | null>(null);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+  if (pathname === '/terms' || pathname === '/terms-and-conditions') {
+    return <LegalPage type="terms" />;
+  }
+  if (pathname === '/privacy' || pathname === '/privacy-policy') {
+    return <LegalPage type="privacy" />;
+  }
 
   const handleStartQuiz = () => {
     setAppState('quiz');

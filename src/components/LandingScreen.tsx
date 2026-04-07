@@ -5,6 +5,7 @@ import { Button } from './ui/Button';
 import { trackEvent } from '../utils/analytics';
 import landingModel from '../assets/landing-model.png';
 import pilatesfyLogo from '../assets/pilatesfy-logo.png';
+import { LegalLinks } from './LegalLinks';
 
 interface LandingScreenProps {
   onStart: () => void;
@@ -144,6 +145,8 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
                 Без регистрация
               </span>
             </div>
+
+            <LegalLinks className="mt-6 text-left" />
           </div>
 
           <div className="isolate w-full rounded-[2.75rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.74))] shadow-[0_34px_70px_rgba(235,199,207,0.20)] overflow-hidden">
@@ -324,6 +327,8 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
               Без регистрация
             </span>
           </div>
+
+          <LegalLinks className="pt-1" />
         </div>
       </motion.div>
     </div>

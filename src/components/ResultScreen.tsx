@@ -5,6 +5,7 @@ import { Button } from './ui/Button';
 import { QuizResult, PROGRAM_DETAILS, getPersonalizedMessaging } from '../utils/scoring';
 import { trackEvent } from '../utils/analytics';
 import resultModel from '../assets/result-model.png';
+import { LegalLinks } from './LegalLinks';
 
 interface ResultScreenProps {
   result: QuizResult;
@@ -295,6 +296,11 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ result, onCheckout }
                 <p className="text-[12px] sm:text-[13px] text-text-secondary/70 relative z-10 max-w-[250px] mx-auto">
                   Ясен старт, веднага след следващата стъпка.
                 </p>
+
+                <p className="mt-4 text-[11px] sm:text-[12px] text-text-secondary/70">
+                  С продължаване приемаш нашите условия и политика.
+                </p>
+                <LegalLinks className="mt-2" />
               </div>
             </motion.div>
           </div>
