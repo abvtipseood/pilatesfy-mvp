@@ -68,7 +68,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
 
       {/* Main Content Area */}
       <motion.div 
-        initial={false}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="flex-1 flex flex-col items-center justify-center text-center z-10 w-full max-w-md lg:max-w-6xl mx-auto mt-1 sm:mt-0"
@@ -305,7 +305,7 @@ export const LandingScreen: React.FC<LandingScreenProps> = ({ onStart }) => {
       </motion.div>
 
       <motion.div 
-        initial={false}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         className="w-full max-w-md mx-auto z-10 pt-4 sm:pt-0 pb-3 sm:pb-8 lg:hidden"
